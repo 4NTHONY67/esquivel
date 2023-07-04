@@ -1,0 +1,139 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="esquivelModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Categoria">
+          <Key>
+            <PropertyRef Name="codcat" />
+          </Key>
+          <Property Name="codcat" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nomcat" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Producto">
+          <Key>
+            <PropertyRef Name="codpro" />
+          </Key>
+          <Property Name="codpro" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nompro" Type="varchar" MaxLength="50" />
+          <Property Name="precio" Type="int" />
+        </EntityType>
+        <Function Name="SP_ELIMINAR_PRODUCTO" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="codpro" Type="int" Mode="In" />
+        </Function>
+        <Function Name="SP_GUARDAR_PRODUCTO" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="nompro" Type="varchar" Mode="In" />
+          <Parameter Name="precio" Type="int" Mode="In" />
+        </Function>
+        <Function Name="SP_LISTAR_PRODUCTOS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="SP_MODIFICAR_PRODUCTO" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="codpro" Type="int" Mode="In" />
+          <Parameter Name="nompro" Type="varchar" Mode="In" />
+          <Parameter Name="precio" Type="int" Mode="In" />
+        </Function>
+        <EntityContainer Name="esquivelModelStoreContainer">
+          <EntitySet Name="Categoria" EntityType="Self.Categoria" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Producto" EntityType="Self.Producto" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="esquivelModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Categoria">
+          <Key>
+            <PropertyRef Name="codcat" />
+          </Key>
+          <Property Name="codcat" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nomcat" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Producto">
+          <Key>
+            <PropertyRef Name="codpro" />
+          </Key>
+          <Property Name="codpro" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nompro" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="precio" Type="Int32" />
+        </EntityType>
+        <EntityContainer Name="esquivelEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Categoria" EntityType="Self.Categoria" />
+          <EntitySet Name="Producto" EntityType="Self.Producto" />
+          <FunctionImport Name="SP_LISTAR_PRODUCTOS" ReturnType="Collection(esquivelModel.SP_LISTAR_PRODUCTOS_Result)" />
+          <FunctionImport Name="SP_GUARDAR_PRODUCTO">
+            <Parameter Name="nompro" Mode="In" Type="String" />
+            <Parameter Name="precio" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_MODIFICAR_PRODUCTO">
+            <Parameter Name="codpro" Mode="In" Type="Int32" />
+            <Parameter Name="nompro" Mode="In" Type="String" />
+            <Parameter Name="precio" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_ELIMINAR_PRODUCTO">
+            <Parameter Name="codpro" Mode="In" Type="Int32" />
+          </FunctionImport>
+        </EntityContainer>
+        <ComplexType Name="SP_LISTAR_PRODUCTOS_Result">
+          <Property Type="Int32" Name="codpro" Nullable="false" />
+          <Property Type="String" Name="nompro" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="precio" Nullable="true" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="esquivelModelStoreContainer" CdmEntityContainer="esquivelEntities">
+          <EntitySetMapping Name="Categoria">
+            <EntityTypeMapping TypeName="esquivelModel.Categoria">
+              <MappingFragment StoreEntitySet="Categoria">
+                <ScalarProperty Name="codcat" ColumnName="codcat" />
+                <ScalarProperty Name="nomcat" ColumnName="nomcat" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Producto">
+            <EntityTypeMapping TypeName="esquivelModel.Producto">
+              <MappingFragment StoreEntitySet="Producto">
+                <ScalarProperty Name="codpro" ColumnName="codpro" />
+                <ScalarProperty Name="nompro" ColumnName="nompro" />
+                <ScalarProperty Name="precio" ColumnName="precio" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="SP_LISTAR_PRODUCTOS" FunctionName="esquivelModel.Store.SP_LISTAR_PRODUCTOS">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="esquivelModel.SP_LISTAR_PRODUCTOS_Result">
+                <ScalarProperty Name="codpro" ColumnName="codpro" />
+                <ScalarProperty Name="nompro" ColumnName="nompro" />
+                <ScalarProperty Name="precio" ColumnName="precio" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_GUARDAR_PRODUCTO" FunctionName="esquivelModel.Store.SP_GUARDAR_PRODUCTO" />
+          <FunctionImportMapping FunctionImportName="SP_MODIFICAR_PRODUCTO" FunctionName="esquivelModel.Store.SP_MODIFICAR_PRODUCTO" />
+          <FunctionImportMapping FunctionImportName="SP_ELIMINAR_PRODUCTO" FunctionName="esquivelModel.Store.SP_ELIMINAR_PRODUCTO" />
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
